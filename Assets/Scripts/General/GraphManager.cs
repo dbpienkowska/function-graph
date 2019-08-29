@@ -66,8 +66,9 @@ public class GraphManager : MonoBehaviour
         activeGraphIndex = index;
 
         SetFunctionDropdown();
-        functionDropdown.value = 0;
-        SetFunction(0);
+        if(functionDropdown.value >= functionDropdown.options.Count)
+            functionDropdown.value = 0;
+        SetFunction(functionDropdown.value);
 
         SetAnimationSpeed(speedSlider.value);
 
