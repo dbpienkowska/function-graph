@@ -7,44 +7,46 @@ public abstract class BurstGraph : Graph
     [SerializeField]
     protected BurstGraphInitializer initializer;
 
-    protected new TransformAccessArray _points;
-    protected JobHandle _handle;
+    protected new TransformAccessArray points;
+    protected JobHandle handle;
 
-    private Transform[] _parents;
+    private Transform[] parents;
 
     protected void LateUpdate()
     {
-        _handle.Complete();
+        handle.Complete();
     }
 
     protected void OnDestroy()
     {
-        _points.Dispose();
+        points.Dispose();
     }
 
-    protected override float _Function(Vector3 position, float time)
+    protected override float Function(Vector3 position, float time)
     {
         throw new System.NotImplementedException();
     }
 
     private void OnEnable()
     {
-        if(_parents == null)
+        pointsCount = points.length;
+
+        if(parents == null)
         {
-            _parents = new Transform[initializer.parentsCount];
-            for(int i = 0; i < _parents.Length; i++)
-                _parents[i] = _points[i].parent;
+            parents = new Transform[initializer.parentsCount];
+            for(int i = 0; i < parents.Length; i++)
+                parents[i] = points[i].parent;
         }
         else
         {
-            foreach(Transform parent in _parents)
+            foreach(Transform parent in parents)
                 parent.gameObject.SetActive(true);
         }
     }
 
     private void OnDisable()
     {
-        foreach(Transform parent in _parents)
+        foreach(Transform parent in parents)
             parent.gameObject.SetActive(false);
     }
 }

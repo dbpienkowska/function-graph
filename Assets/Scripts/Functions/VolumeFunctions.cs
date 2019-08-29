@@ -161,9 +161,9 @@ public static class VolumeFunctions
         float r2 = 0.5f;
         float s = r2 * Mathf.Cos(Mathf.PI * v) + r1;
 
-        p.x = s * Mathf.Sin(Mathf.PI * u);
+        p.x = s * Mathf.Sin(Mathf.PI * u + t);
         p.y = r2 * Mathf.Sin(Mathf.PI * v);
-        p.z = s * Mathf.Cos(Mathf.PI * u);
+        p.z = s * Mathf.Cos(Mathf.PI * u + t);
 
         return p;
     }

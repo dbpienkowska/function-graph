@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 
 public class VolumeGraph : Graph
 {
     public VolumeFunctionName function;
 
-    protected override int _domainLength => VolumeFunctions.DOMAIN_LENGTH;
+    protected override int domainLength => VolumeFunctions.DOMAIN_LENGTH;
 
-    protected override float _Function(Vector3 position, float time)
+    public override int functionIndex
+    {
+        get => (int)function;
+        set { function = (VolumeFunctionName)value; }
+    }
+    public override string[] functionNames => Enum.GetNames(typeof(VolumeFunctionName));
+
+    protected override float Function(Vector3 position, float time)
     {
         throw new System.NotImplementedException();
     }
@@ -16,9 +23,9 @@ public class VolumeGraph : Graph
 
     private void _InitPositions()
     {
-        _positions = new Vector3[_points.Length];
-        for(int i = 0; i < _points.Length; i++)
-            _positions[i] = _points[i].transform.localPosition;
+        _positions = new Vector3[points.Length];
+        for(int i = 0; i < points.Length; i++)
+            _positions[i] = points[i].transform.localPosition;
     }
 
     protected override void Awake()
@@ -27,11 +34,11 @@ public class VolumeGraph : Graph
         _InitPositions();
     }
 
-    protected override void _Phase()
+    protected override void Phase()
     {
-        for(int i = 0; i < _points.Length; i++)
+        for(int i = 0; i < points.Length; i++)
         {
-            _points[i].localPosition = VolumeFunctions.VolumeFunction(function, _positions[i].x, _positions[i].z, _time);
+            points[i].localPosition = VolumeFunctions.VolumeFunction(function, _positions[i].x, _positions[i].z, time);
         }
     }
 }
